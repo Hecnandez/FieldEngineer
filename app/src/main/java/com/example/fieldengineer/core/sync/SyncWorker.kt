@@ -7,11 +7,13 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.fieldengineer.core.data.remote.api.SyncApiService
 import com.example.fieldengineer.core.data.remote.dto.SyncPushRequestDto
-import com.example.fieldengineer.data.repository.AssetRepositoryImpl
-import com.example.fieldengineer.data.repository.ConsumedPartRepositoryImpl
+import com.example.fieldengineer.core.data.repository.AssetRepositoryImpl
+import com.example.fieldengineer.core.data.repository.ConsumedPartRepositoryImpl
 import com.example.fieldengineer.core.data.repository.InventoryRepositoryImpl
-import com.example.fieldengineer.data.repository.PartCatalogRepositoryImpl
-import com.example.fieldengineer.data.repository.WorkOrderRepositoryImpl
+import com.example.fieldengineer.core.data.toDto
+import com.example.fieldengineer.core.data.toEntity
+import com.example.fieldengineer.core.data.repository.PartCatalogRepositoryImpl
+import com.example.fieldengineer.core.data.repository.WorkOrderRepositoryImpl
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

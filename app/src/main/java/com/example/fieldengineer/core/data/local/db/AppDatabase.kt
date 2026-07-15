@@ -7,11 +7,11 @@ import com.example.fieldengineer.core.data.local.dao.ConsumedPartDao
 import com.example.fieldengineer.core.data.local.dao.InventoryDao
 import com.example.fieldengineer.core.data.local.dao.PartCatalogDao
 import com.example.fieldengineer.core.data.local.dao.WorkOrderDao
-import com.example.fieldengineer.data.local.entity.AssetEntity
-import com.example.fieldengineer.data.local.entity.ConsumedPartEntity
-import com.example.fieldengineer.data.local.entity.InventoryEntity
-import com.example.fieldengineer.data.local.entity.PartCatalogEntity
-import com.example.fieldengineer.data.local.entity.WorkOrderEntity
+import com.example.fieldengineer.core.data.local.entity.AssetEntity
+import com.example.fieldengineer.core.data.local.entity.ConsumedPartEntity
+import com.example.fieldengineer.core.data.local.entity.InventoryEntity
+import com.example.fieldengineer.core.data.local.entity.PartCatalogEntity
+import com.example.fieldengineer.core.data.local.entity.WorkOrderEntity
 
 @Database(
     entities = [AssetEntity::class, PartCatalogEntity::class, ConsumedPartEntity::class, WorkOrderEntity::class, InventoryEntity::class],

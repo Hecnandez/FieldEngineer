@@ -1,4 +1,4 @@
-package com.example.fieldengineer.data.remote.dto
+package com.example.fieldengineer.core.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 

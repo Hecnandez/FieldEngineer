@@ -4,15 +4,12 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.fieldengineer.data.local.entity.InventoryEntity
+import com.example.fieldengineer.core.data.local.entity.InventoryEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface InventoryDao {
-    @Query("""SELECT i.*, p.name, p.part_number, p.category 
-        FROM inventory i
-        INNER JOIN part_catalog p ON i.part_id = p.id
-        WHERE is_deleted = 0""")
+    @Query("SELECT * FROM inventory WHERE is_deleted = 0")
     fun getTruckInventory(): Flow<List<InventoryEntity>>
 
     @Query("SELECT * FROM inventory WHERE part_ID = :partId LIMIT 1")

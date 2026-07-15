@@ -1,4 +1,4 @@
-package com.example.fieldengineer.data.local.entity
+package com.example.fieldengineer.core.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

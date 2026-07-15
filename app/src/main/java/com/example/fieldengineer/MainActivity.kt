@@ -21,18 +21,16 @@ import androidx.work.WorkManager
 import androidx.work.WorkerFactory
 import com.example.fieldengineer.core.sync.SyncWorker
 import com.example.fieldengineer.ui.theme.FieldEngineerTheme
+import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-@HiltAndroidApp
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject
-    lateinit var workerFactory: WorkerFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupBackgroundSync()
         enableEdgeToEdge()
         setContent {
             FieldEngineerTheme {
@@ -46,40 +44,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun getWorkManagerConfiguration(): Configuration {
-        return Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
-    }
 
-    private fun setupBackgroundSync() {
-        val syncConstraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresBatteryNotLow(true)
-            .build()
-
-        val periodicSyncRequest = PeriodicWorkRequestBuilder<SyncWorker>(1, TimeUnit.HOURS)
-            .setConstraints(syncConstraints)
-            .build()
-
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "FieldEngineerDataSync",
-            ExistingPeriodicWorkPolicy.KEEP,
-            periodicSyncRequest
-        )
-    }
-
-    fun triggerImmediateSync() {
-        val immediateRequest = OneTimeWorkRequestBuilder<SyncWorker>()
-            .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
-            .build()
-
-        WorkManager.getInstance(context).enqueueUniqueWork(
-            "ImmediateFieldSync",
-            ExistingWorkPolicy.REPLACE,
-            immediateRequest
-        )
-    }
 }
 
 @Composable

@@ -1,8 +1,8 @@
-package com.example.fieldengineer.data.repository
+package com.example.fieldengineer.core.data.repository
 
 import android.util.Log
 import com.example.fieldengineer.core.data.local.dao.ConsumedPartDao
-import com.example.fieldengineer.data.local.entity.ConsumedPartEntity
+import com.example.fieldengineer.core.data.local.entity.ConsumedPartEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import javax.inject.Inject

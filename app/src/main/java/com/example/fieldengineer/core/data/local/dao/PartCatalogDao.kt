@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.fieldengineer.data.local.entity.PartCatalogEntity
+import com.example.fieldengineer.core.data.local.entity.PartCatalogEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

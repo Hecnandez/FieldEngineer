@@ -2,7 +2,7 @@ package com.example.fieldengineer.core.data.repository
 
 import android.util.Log
 import com.example.fieldengineer.core.data.local.dao.InventoryDao
-import com.example.fieldengineer.data.local.entity.InventoryEntity
+import com.example.fieldengineer.core.data.local.entity.InventoryEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import javax.inject.Inject

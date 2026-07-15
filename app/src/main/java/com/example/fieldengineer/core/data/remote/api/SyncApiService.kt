@@ -1,8 +1,8 @@
 package com.example.fieldengineer.core.data.remote.api
 
-import com.example.fieldengineer.data.remote.dto.SyncPullResponseDto
+import com.example.fieldengineer.core.data.remote.dto.SyncPullResponseDto
 import com.example.fieldengineer.core.data.remote.dto.SyncPushRequestDto
-import com.example.fieldengineer.data.remote.dto.SyncPushResponseDto
+import com.example.fieldengineer.core.data.remote.dto.SyncPushResponseDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

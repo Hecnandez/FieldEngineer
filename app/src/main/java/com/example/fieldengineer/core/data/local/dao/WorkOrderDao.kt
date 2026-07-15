@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.fieldengineer.data.local.entity.WorkOrderEntity
+import com.example.fieldengineer.core.data.local.entity.WorkOrderEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
