@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:16-alpine
+    container_name: field_engineer_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: field_engineer_db
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: super_secret_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - sync_network
+
+  sync-api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: field_engineer_api
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: postgres-db
+      DB_PORT: 5432
+      DB_NAME: field_engineer_db
+      DB_USER: postgres_user
+      DB_PASSWORD: super_secret_password
+    depends_on:
+      - postgres-db
+    networks:
+      - sync_network
+
+volumes:
+  postgres_data:
+
+networks:
+  sync_network:
+    driver: bridge

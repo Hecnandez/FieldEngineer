@@ -11,6 +11,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.example.fieldengineer.core.data.local.entity.AssetEntity
 import com.example.fieldengineer.core.sync.SyncWorker
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
