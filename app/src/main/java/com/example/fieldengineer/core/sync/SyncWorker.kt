@@ -29,10 +29,9 @@ class SyncWorker @AssistedInject constructor(
     private val consumedPartRepositoryImpl: ConsumedPartRepositoryImpl
 ) : CoroutineWorker(context, workerParams) {
     override suspend fun doWork(): Result {
+        Log.i("SyncWorker", "Initialized")
         // First part: push
-        try {
-            Log.d("SyncWorker", "Starting background sync execution cycle...")
-        } catch (e: Exception) {
+        return try {
             val dirtyWorkOrders = workOrderRepositoryImpl.getDirtyWorkOrders()
             val dirtyConsumedParts = consumedPartRepositoryImpl.getDirtyConsumedParts()
 
@@ -55,27 +54,31 @@ class SyncWorker @AssistedInject constructor(
                 return Result.retry()
             }
 
+
+            // Second part: pull
+            val lastSyncTimestamp: Long = 0
+
+            val pullResponse = syncApiService.pullChanges(lastSyncTimestamp)
+
+            if (pullResponse.isSuccessful && pullResponse.body() != null) {
+                val deltas = pullResponse.body()!!
+
+                if (deltas.assets.isNotEmpty()) assetRepositoryImpl.upsertAssets(deltas.assets.map { it.toEntity() })
+                if (deltas.partCatalog.isNotEmpty()) partCatalogRepositoryImpl.upsertParts(deltas.partCatalog.map { it.toEntity() })
+                if (deltas.inventory.isNotEmpty()) inventoryRepositoryImpl.upsertInventory(deltas.inventory.map { it.toEntity() })
+                if (deltas.workOrders.isNotEmpty()) workOrderRepositoryImpl.upsertWorkOrders(deltas.workOrders.map { it.toEntity() })
+                if (deltas.consumedParts.isNotEmpty()) consumedPartRepositoryImpl.upsertConsumedParts(deltas.consumedParts.map { it.toEntity() })
+
+                Log.d("SyncWorker", "Pull synchronization delta application successful.")
+                return Result.success()
+            } else {
+                Log.e("SyncWorker", "Pull operation failed to download remote data delta update.")
+                return Result.retry()
+            }
+        } catch (e: Exception) {
+            Log.d("SyncWorker", "Starting background sync execution cycle...")
+            Result.retry()
         }
 
-        // Second part: pull
-        val lastSyncTimestamp: Long = 0
-
-        val pullResponse = syncApiService.pullChanges(lastSyncTimestamp)
-
-        if (pullResponse.isSuccessful && pullResponse.body() != null) {
-            val deltas = pullResponse.body()!!
-
-            if (deltas.assets.isNotEmpty()) assetRepositoryImpl.upsertAssets(deltas.assets.map { it.toEntity() })
-            if (deltas.partCatalog.isNotEmpty()) partCatalogRepositoryImpl.upsertParts(deltas.partCatalog.map { it.toEntity() })
-            if (deltas.inventory.isNotEmpty()) inventoryRepositoryImpl.upsertInventory(deltas.inventory.map { it.toEntity() })
-            if (deltas.workOrders.isNotEmpty()) workOrderRepositoryImpl.upsertWorkOrders(deltas.workOrders.map { it.toEntity() })
-            if (deltas.consumedParts.isNotEmpty()) consumedPartRepositoryImpl.upsertConsumedParts(deltas.consumedParts.map { it.toEntity() })
-
-            Log.d("SyncWorker", "Pull synchronization delta application successful.")
-            return Result.success()
-        } else {
-            Log.e("SyncWorker", "Pull operation failed to download remote data delta update.")
-            return Result.retry()
-        }
     }
 }

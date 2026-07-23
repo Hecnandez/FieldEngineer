@@ -27,6 +27,7 @@ class FieldEngineerApplication: Application(), Configuration.Provider {
         super.onCreate()
 
         setupBackgroundSync()
+        triggerImmediateSync()
     }
 
     override val workManagerConfiguration: Configuration
@@ -44,7 +45,7 @@ class FieldEngineerApplication: Application(), Configuration.Provider {
             .setConstraints(syncConstraints)
             .build()
 
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
             "FieldEngineerDataSync",
             ExistingPeriodicWorkPolicy.KEEP,
             periodicSyncRequest
@@ -56,7 +57,7 @@ class FieldEngineerApplication: Application(), Configuration.Provider {
             .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
             .build()
 
-        WorkManager.getInstance(this).enqueueUniqueWork(
+        WorkManager.getInstance(applicationContext).enqueueUniqueWork(
             "ImmediateFieldSync",
             ExistingWorkPolicy.REPLACE,
             immediateRequest

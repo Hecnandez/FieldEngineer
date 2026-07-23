@@ -1,5 +1,6 @@
 package com.example.fieldengineer.core.data.remote
 
+import android.os.Build
 import com.example.fieldengineer.core.data.remote.api.SyncApiService
 import dagger.Module
 import dagger.Provides
@@ -16,8 +17,13 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
+        val baseUrl = if (Build.FINGERPRINT.contains("generic")) {
+            "http://10.0.2.2:8080/"
+        } else {
+            "http://192.168.1.50:8080/"
+        }
         return Retrofit.Builder()
-            .baseUrl("https://___/")
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
